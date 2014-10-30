@@ -1,5 +1,28 @@
-<script src="/socket.io/socket.io.js"></script>
+<body>
 
-<script>
-	var socket = io.connect('http://localhost');
-</script>
+	<ul id="chat_messages">
+
+
+	</ul>
+	<form id="message_form" action="">
+		<input type="text" id="new_message">
+		<button>Send</button>
+	</form>
+
+
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+
+	<script>
+		var socket = io();
+		$('#message_form').submit(function (){ 
+			socket.emit('new message', $("#new_message").val());
+			$("#new_message").val("");
+			return false;
+		});
+		socket.on('new message', function (message){
+			$("#chat_messages").append($('<li>').text(message));
+		});
+	</script>
+</body>
